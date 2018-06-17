@@ -1,0 +1,109 @@
+PUT my_index
+{
+  "mappings": {
+    "doc" :{
+      "dynamic": false,
+      "properties": {
+        "title" : {
+          "type": "text"
+        },
+        "name" : {
+          "type": "keyword"
+        },
+        "age" : {
+          "type": "integer"
+        }
+      }
+    }
+  }
+}
+
+GET my_index/_mapping
+
+DELETE my_index
+
+PUT my_index/doc/1
+{
+  "title" :"hello,world",
+  "desc" : "nothing here"
+}
+
+GET my_index/doc/_search
+{
+  "query": {
+    "match": {
+      "title": "hello"
+    }
+  }
+}
+
+PUT my_index
+{
+  "mappings": {
+    "doc" : {
+      "properties": {
+        "first_name" : {
+          "type": "text",
+          "copy_to": "full_name"
+        },
+        "last_name" : {
+          "type": "text",
+          "copy_to": "full_name"
+        },
+        "full_name" : {
+          "type": "text"
+        }
+      }
+    }
+  }
+}
+
+PUT my_index/doc/1
+{
+  "first_name" : "John",
+  "last_name" : "Smith"
+}
+
+GET my_index/_search
+
+GET my_index/_search
+{
+  "query": {
+    "match": {
+      "full_name": {
+        "query": "John Smith",
+        "operator": "and"
+      }
+    }
+  }
+}
+
+PUT my_index
+{
+  "mappings": {
+    "doc" : {
+      "properties": {
+        "cookie" : {
+          "type": "text",
+          "index": false
+        }
+      }
+    }
+  }
+}
+
+PUT my_index/doc/1
+{
+  "cookie" : "name=alfred"
+}
+
+Get my_index/_search
+{
+  "query" : {
+    "match": {
+      "cookie": "name"
+    }
+  }
+}
+
+

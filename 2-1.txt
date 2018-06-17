@@ -1,0 +1,53 @@
+PUT /test_index
+
+GET _cat/indices
+
+DELETE /test_index
+
+PUT /test_index/doc/1
+{
+  "username" : "alfred",
+  "age" : 1
+}
+
+POST test_index/doc
+{
+  "username" : "tom",
+  "age" : 20
+}
+
+GET /test_index/doc/1
+
+GET test_index/doc/_search
+
+GET test_index/doc/_search
+{
+  "query": {
+    "term": {
+      "_id": "1"
+    }
+  }
+}
+
+POST _bulk
+{"index" : {"_index" : "test_index","_type" : "doc","_id" : "3"}}
+{"username" : "alfred","age" : 10}
+{"delete": {"_index" : "test_index","_type" : "doc","_id" : "1"}}
+{"update" : {"_index" : "test_index","_type" : "doc","_id" : "2"}}
+{"doc" : {"age" : "20"}}
+
+GET /_mget
+{
+  "docs": [
+    {
+      "_index": "test_index",
+      "_type": "doc",
+      "_id": "3"
+    },
+    {
+      "_index": "test_index",
+      "_type": "doc",
+      "_id": "2"
+    }
+  ]
+}

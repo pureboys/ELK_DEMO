@@ -1,0 +1,106 @@
+ DELETE test_index
+ 
+ PUT test_index
+ {
+   "mappings": {
+     "doc": {
+        "dynamic_templates" :[
+                    {
+            "message_as_text" : {
+              "match_mapping_type" : "string",
+              "match" : "message*",
+              "mapping" : {
+                "type" : "text"
+              }
+            }
+          },
+          {
+            "strings_as_keywords" :{
+              "match_mapping_type":"string",
+              "mapping": {
+                "type":"keyword"
+              }
+            }
+          }
+        ]
+     }
+   }
+ }
+ 
+ PUT test_index/doc/1
+ {
+   "name": "alfred",
+   "message": "handsome boy"
+ }
+ 
+ GET test_index/_mapping
+ 
+ 
+ 
+ DELETE test_index
+ 
+ PUT test_index/doc/1
+ {
+   "referrer" : "-",
+   "response_code": "200",
+   "remote_ip": "171.221.139.157",
+   "method": "POST",
+   "user_name": "-",
+   "http_version": "1.1",
+   "body_sent" : {
+     "bytes" : "0"
+   },
+   "url": "/analyzeVideo"
+ }
+ 
+ GET test_index/_mapping 
+ 
+ DELETE my_product_index/
+ 
+PUT my_product_index/
+{
+  "mappings": {
+    "doc": {
+      "dynamic_templates": [
+        {
+          "strings_as_keywords": {
+            "match_mapping_type": "string",
+            "mapping": {
+              "type": "keyword"
+            }
+          }
+        }
+      ],
+      "properties": {
+        "body_sent": {
+          "properties": {
+            "bytes": {
+              "type": "long"
+            }
+          }
+        },
+        "url": {
+          "type": "text"
+        }
+      }
+    }
+  }
+}
+ 
+ PUT my_product_index/doc/1
+ {
+   "referrer" : "-",
+   "response_code": "200",
+   "remote_ip": "171.221.139.157",
+   "method": "POST",
+   "user_name": "-",
+   "http_version": "1.1",
+   "body_sent" : {
+     "bytes" : "0"
+   },
+   "url": "/analyzeVideo"
+ } 
+ 
+  GET my_product_index/_mapping 
+
+  

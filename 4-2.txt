@@ -1,0 +1,59 @@
+DELETE  test_index
+
+PUT test_index/doc/1
+{
+  "username": "alfred",
+  "age" : 1
+}
+
+GET test_index/_mapping
+
+PUT test_index/doc/1
+{
+  "username" : "alfred",
+  "age" : 14,
+  "birth" : "1988-10-10",
+  "married": false,
+  "year" : "18",
+  "tags": ["boy", "fashion"],
+  "money": 100.1
+}
+
+GET test_index/_mapping
+
+DELETE my_index
+
+PUT my_index
+{
+  "mappings": {
+    "my_type" : {
+      "dynamic_date_formats": ["MM/dd/yyyy"]
+    }
+  }
+}
+
+PUT my_index/my_type/1
+{
+  "create_date" : "09/25/2015"
+}
+
+GET my_index/_mapping
+
+DELETE my_index
+
+PUT my_index
+{
+  "mappings": {
+    "my_type" : {
+      "numeric_detection": true
+    }
+  }
+}
+
+PUT my_index/my_type/1
+{
+  "my_float" : "1.0",
+  "my_integer" : "1"
+}
+
+GET my_index/_mapping
