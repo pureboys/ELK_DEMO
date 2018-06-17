@@ -1,0 +1,50 @@
+GET _template
+
+PUT _template/test_template
+{
+  "index_patterns":["te*","bar*"],
+  "order" : 0,
+  "settings": {
+    "number_of_shards": 1
+  },
+  "mappings": {
+    "doc" : {
+      "_source" : {
+        "enabled" : false
+      },
+      "properties" : {
+        "name" : {
+          "type" : "keyword"
+        }
+      }
+    }
+  }
+}
+
+PUT _template/test_template2
+{
+  "index_patterns": ["test*"],
+  "order" : 1,
+  "settings": {
+    "number_of_shards": 1
+  },
+  "mappings": {
+    "doc" : {
+      "_source":{
+        "enabled": true
+      }
+    }
+  }
+}
+
+PUT foo_index
+GET foo_index/_mapping
+
+PUT bar_index
+GET bar_index/_mapping
+GET bar_index/
+
+DELETE test_index
+PUT test_index
+GET test_index/_mapping
+GET test_index/
