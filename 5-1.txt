@@ -19,6 +19,16 @@ POST test_index/doc/_bulk
 {"index":{"_id":"4"}}
 {"username":"alfred junior way", "job" : "ruby engineer", "age":23,"brith":"1989-08-07","isMarried": false}
 
+POST test_index/doc/5
+{
+  "username":"java", 
+  "job" : "ruby", 
+  "age":23,
+  "brith":"1989-08-07",
+  "isMarried": false
+}
+
+
 # search api
 
 GET test_index/_search?q=alfred
@@ -120,5 +130,136 @@ GET test_index/_search
     }
   }
 }
+
+# explain
+GET test_index/_search
+{
+  "explain": true,
+  "query": {
+    "match": {
+      "username": {
+        "query": "alfred way",
+        "operator": "and"
+      }
+    }
+  }
+}
+
+# match phrase query
+GET test_index/_search
+{
+  "query": {
+    "match_phrase": {
+      "job": "java engineer"
+    }
+  }
+}
+
+GET test_index/_search
+{
+  "query": {
+    "match_phrase": {
+      "job": "engineer java"
+    }
+  }
+}
+
+GET test_index/_search
+{
+  "query": {
+    "match_phrase": {
+      "job": {
+        "query": "java engineer",
+        "slop": 1
+      }
+    }
+  }
+}
+
+# query string
+GET test_index/_search
+{
+  "profile": "true", 
+  "query": {
+    "query_string": {
+      "default_field": "username",
+      "query": "alfred AND way"
+    }
+  }
+}
+
+GET test_index/_search
+{
+  "profile": "true", 
+  "query": {
+    "query_string": {
+      "fields": ["username","job"],
+      "query": "java AND ruby"
+    }
+  }
+}
+
+# simple query string
+GET test_index/_search
+{
+  "profile": "true",
+  "query": {
+    "simple_query_string": {
+      "query": "alfred +way ",
+      "fields": ["username"]
+    }
+  }
+}
+
+#term
+GET test_index/_search
+{
+  "query": {
+    "term": {
+      "username": {
+        "value": "alfred"
+      }
+    }
+  }
+}
+
+GET test_index/_search
+{
+  "query": {
+    "term": {
+      "username": {
+        "value": "alfred way"
+      }
+    }
+  }
+}
+
+GET test_index/_search
+{
+  "query": {
+    "terms": {
+      "username": [
+        "alfred",
+        "way"
+      ]
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
