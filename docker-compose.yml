@@ -5,12 +5,14 @@ services:
     container_name: elasticsearch
     environment:
       - cluster.name=docker-cluster
+      - node.name=es1
       - bootstrap.memory_lock=true
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
     ulimits:
       memlock:
         soft: -1
         hard: -1
+    mem_limit: 1g    
     volumes:
       - esdata1:/usr/share/elasticsearch/data
     ports:
@@ -22,6 +24,7 @@ services:
     container_name: elasticsearch2
     environment:
       - cluster.name=docker-cluster
+      - node.name=es2
       - bootstrap.memory_lock=true
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
       - "discovery.zen.ping.unicast.hosts=elasticsearch"
@@ -29,6 +32,7 @@ services:
       memlock:
         soft: -1
         hard: -1
+    mem_limit: 1g     
     volumes:
       - esdata2:/usr/share/elasticsearch/data
     networks:
@@ -39,7 +43,16 @@ services:
       ports:
         - 5601:5601
       networks:
-        - esnet  
+        - esnet
+
+
+  cerebro:
+     image: yannart/cerebro
+     ports:
+        - "9000:9000"
+     networks:
+        - esnet
+        
 
 volumes:
   esdata1:
